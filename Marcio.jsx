@@ -1,13 +1,29 @@
+/**
+ * Componente Cadastro de Tarefas
+ * 
+ * Este componente permite ao usuário cadastrar tarefas,
+ * salvar seu nome e personalizar a cor de fundo da página.
+ * As informações são armazenadas no localStorage para persistência de dados.
+ */
+
 import { useState, useEffect } from 'react';
 
 function Cadastro() {
+  // Estado para armazenar o nome do usuário
   const [nome, setNome] = useState(localStorage.getItem('nome') || '');
+  
+  // Estado para armazenar a tarefa digitada
   const [tarefa, setTarefa] = useState('');
+  
+  // Estado para armazenar a lista de tarefas
   const [tarefas, setTarefas] = useState(
     JSON.parse(localStorage.getItem('tarefas')) || []
   );
+  
+  // Estado para armazenar a cor de fundo da página
   const [cor, setCor] = useState(localStorage.getItem('cor') || 'white');
 
+  // Pergunta o nome do usuário ao entrar na página
   useEffect(() => {
     if (!nome) {
       const nomeUsuario = prompt('Qual seu nome?');
@@ -16,15 +32,18 @@ function Cadastro() {
     }
   }, []);
 
+  // Salva a lista de tarefas no localStorage
   useEffect(() => {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
   }, [tarefas]);
 
+  // Atualiza a cor de fundo e salva no localStorage
   useEffect(() => {
     localStorage.setItem('cor', cor);
     document.body.style.backgroundColor = cor;
   }, [cor]);
 
+  // Adiciona uma nova tarefa à lista
   function handleRegistro(e) {
     e.preventDefault();
     if (tarefa.trim()) {
@@ -48,12 +67,14 @@ function Cadastro() {
         <button type='submit'>Adicionar</button>
       </form>
       
+      {/* Exibe a lista de tarefas */}
       <ul>
         {tarefas.map((t, index) => (
           <li key={index}>{t}</li>
         ))}
       </ul>
       
+      {/* Opções de cores para fundo */}
       <h3>Escolha uma cor de fundo:</h3>
       <label>
         <input
